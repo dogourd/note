@@ -24,3 +24,5 @@ HostSpot OpenJDK(jdk/test/java/lang/instrument/RedefineSubclassWithTwoInterfaces
 |0x00100000 | 1048576| impl details: vtable updates|
 |0x00200000 | 2097152| impl details: itable updates|
 
+### 记录 JVM 类装载卸载记录
+`-XX:+TraceClassLoading`, `-XX:+TraceClassUnloading`
