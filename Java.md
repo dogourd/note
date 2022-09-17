@@ -3,6 +3,10 @@
 1. 启动参数添加 `--privileged=true` 获取真实root权限, `--cap-add=SYS_PTRACE` 开启ptrace若已添加privileged则不必须。
 2. 进入容器后 `ulimit -a` 检查coredump限制，必要可调整为 unlimited。
 
+### Linux CoreDump
+1. 查看 core dump 导出路径及文件名信息: `cat /proc/sys/kernel/core_pattern`; 
+2. 临时修改路径及文件名信息可直接编辑 `/proc/sys/kernel/core_pattern` 文件, 永久修改须使用 `sysctl -w kernel.core_pattern=custom`
+
 ### 记录 JVM 类编译信息
 
 `-XX:+PrintCompilation`，启动性能影响非常严重，如必要可使用。
