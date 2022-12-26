@@ -8,7 +8,7 @@ package icu.cucurbit.note.examples.bytebuddy.seales;
  */
 public sealed class Sealed permits Sealed.A, NonSealed {
 
-    private static final class A extends Sealed {
+    public static final class A extends Sealed {
 
     }
 
