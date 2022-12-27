@@ -10,6 +10,7 @@
     <version>1.0</version>
     <modules>
         <module>byte-buddy</module>
+        <module>javas</module>
     </modules>
 
     <properties>

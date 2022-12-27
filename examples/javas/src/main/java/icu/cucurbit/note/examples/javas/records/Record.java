@@ -1,4 +1,4 @@
-package icu.cucurbit.note.examples.bytebuddy.records;
+package icu.cucurbit.note.examples.javas.records;
 
 public record Record(String a) {
 

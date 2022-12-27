@@ -1,4 +1,4 @@
-package icu.cucurbit.note.examples.bytebuddy.seales;
+package icu.cucurbit.note.examples.javas.seales;
 
 /**
  * <h1> Seales </h1>
