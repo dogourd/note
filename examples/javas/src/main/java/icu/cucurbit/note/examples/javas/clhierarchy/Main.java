@@ -15,6 +15,10 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) throws Throwable {
+        v2();
+    }
+
+    public static void v1() throws Throwable {
         String klass = "icu.cucurbit.note.examples.javas.clhierarchy.ToLoad";
 
         Class<?> firstLoad = Class.forName(klass);
@@ -37,7 +41,49 @@ public class Main {
                 firstLoad.getClassLoader(), typeDefinitions);
         Class<?> secondLoad = myLoader.loadClass(klass);
 
-        System.out.println(secondLoad == firstLoad);
+        Class<?> thirdLoad = myLoader.loadClass(klass);
+
+        System.out.println("first class loader: " + firstLoad.getClassLoader());
+        System.out.println("second class loader: " + secondLoad.getClassLoader());
+        System.out.println("third class loader: " + thirdLoad.getClassLoader());
+        System.out.println("class, first == second? " + (secondLoad == firstLoad));
+        System.out.println("class, second == third? " + (secondLoad == thirdLoad));
+        System.out.println(secondLoad.getName());
+    }
+
+    public static void v2() throws Throwable {
+        String klass = "icu.cucurbit.note.examples.javas.clhierarchy.ToLoad";
+        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+
+
+        byte[] binaryRepresentation;
+        String internalClassName = klass.replace('.', '/') + ".class";
+        try (InputStream is = contextClassLoader.getResourceAsStream(internalClassName)) {
+            if (is == null) {
+                throw new IOException(internalClassName + " not found.");
+            }
+            int size =is.available();
+            binaryRepresentation = new byte[size];
+            new DataInputStream(is).readFully(binaryRepresentation);
+        }
+
+        Map<String, byte[]> typeDefinitions = new HashMap<>();
+        typeDefinitions.put(klass, binaryRepresentation);
+
+        ChildFirstByteArrayClassLoader myLoader = new ChildFirstByteArrayClassLoader(
+                contextClassLoader, typeDefinitions);
+
+        Class<?> firstLoad = myLoader.loadClass(klass);
+
+        Class<?> secondLoad = myLoader.loadClass(klass);
+
+        Class<?> thirdLoad = Class.forName(klass, true, contextClassLoader);
+
+        System.out.println("first class loader: " + firstLoad.getClassLoader());
+        System.out.println("second class loader: " + secondLoad.getClassLoader());
+        System.out.println("third class loader: " + thirdLoad.getClassLoader());
+        System.out.println("class, first == second? " + (secondLoad == firstLoad));
+        System.out.println("class, second == third? " + (secondLoad == thirdLoad));
         System.out.println(secondLoad.getName());
     }
 

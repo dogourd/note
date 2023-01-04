@@ -30,3 +30,18 @@ HostSpot OpenJDK(jdk/test/java/lang/instrument/RedefineSubclassWithTwoInterfaces
 
 ### 记录 JVM 类装载卸载记录
 `-XX:+TraceClassLoading`, `-XX:+TraceClassUnloading`
+
+### 禁止省略异常堆栈跟踪
+HotSpot VM 中, JVM会记住异常调用栈信息(**StackTrace**), 当某个异常经常发生时, 调用栈信息将不会再打印, 以此来实现更好的性能,
+HotSpot 默认开启该功能, 可能导致部分异常调用栈信息无法获取。 例如在调用`NullPointerException.printStackTrace()` 时
+输出内容为:
+```text
+开启该功能时
+java.lang.NullPointerException
+
+禁用该功能时
+java.lang.NullPointerException
+  at a.b.c(b.java:123)
+  at a.b.b(b.java:122)
+``` 
+可使用 `-XX:-OmitStackTraceInFastThrow` 选项禁用该功能.
